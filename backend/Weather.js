@@ -51,7 +51,7 @@ const getWeather = async (req,res) =>{
         const temperatureMin = response.daily().variables(2).valuesArray();
         const sunshine_duration = response.daily().variables(3).valuesArray();
         for(let key in sunshine_duration){
-            sunshine_duration[key]=sunshine_duration[key]*0.2*2.5;
+            sunshine_duration[key]=(sunshine_duration[key]*0.2*2.5)/3600;
         }
         const info = {
             time: range(BigInt(response.daily().time()),BigInt(response.daily().timeEnd()), BigInt(response.daily().interval())).map(

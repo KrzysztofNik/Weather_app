@@ -4,10 +4,18 @@ import './Sidebar.css'; // Import the CSS file for Sidebar styles
 function Sidebar({ onSubmit }) {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(latitude, longitude);
+    const lat = parseFloat(latitude);
+    const lon = parseFloat(longitude);
+    if (isNaN(lat) || lat < -90 || lat > 90 || isNaN(lon) || lon < -180 || lon > 180) {
+      setError('Please enter valid latitude and longitude values.');
+    } else {
+      setError('');
+      onSubmit(latitude, longitude);
+    }
   };
 
   return (
@@ -36,8 +44,8 @@ function Sidebar({ onSubmit }) {
             placeholder="Enter longitude"
           />
         </div>
-        <button type="submit" className="submit-button">Get Weather</button>
-      </form>
+        {error && <p className="error-box">{error}</p>}
+        <button type="submit" className="submit-button">Get Weather</button>      </form>
     </div>
   );
 }

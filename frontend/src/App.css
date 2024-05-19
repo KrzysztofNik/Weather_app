@@ -17,12 +17,14 @@
 }
 
 .weather-box {
-  padding: 15px;
-  margin-bottom: 15px;
-  background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
 .weather-box h3 {
@@ -33,4 +35,21 @@
 .weather-box p {
   margin: 5px 0;
   font-size: 1rem;
+}
+
+
+.weather-box-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.weather-details {
+  flex: 1;
+}
+
+.weather-icon {
+  margin-left: 10px;
+  font-size: 6rem;
+  color: #007bff;
 }
