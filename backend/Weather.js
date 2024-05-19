@@ -1,17 +1,27 @@
-const fetch = require("node-fetch");
 const {fetchWeatherApi} = require('openmeteo');
 const express = require('express');
-
+const axios = require('axios');
 
 
 const getWeather = async (req,res) =>{
 
-    
-
     try{
+
+        let body = '';
+
+        req.on('data', (chunk) => {
+            body += chunk.toString(); 
+        });
+        req.on('end', async ()=>{
+        const paramsi = new URLSearchParams(body);
+        const  latitude = paramsi.get('latitude');
+        const longitude = paramsi.get('longitude');
+
+        console.log(latitude);
+
         const params = {
-            latitude: [53.54],
-            longitude: [13.41],
+            latitude: [latitude],
+            longitude: [longitude],
             timezone: 'auto',
             daily: 'weather_code,temperature_2m_max,temperature_2m_min,sunshine_duration',
             hourly: 'temperature_2m'
@@ -36,8 +46,6 @@ const getWeather = async (req,res) =>{
 
         const response = responses[0];
         const utcOffsetSeconds = response.utcOffsetSeconds();
-        const timezone = response.timezone();
-        const timezoneAbbreviation = response.timezoneAbbreviation();
         const weather_code = response.daily().variables(0).valuesArray();
         const temperatureMax = response.daily().variables(1).valuesArray();
         const temperatureMin = response.daily().variables(2).valuesArray();
@@ -55,6 +63,8 @@ const getWeather = async (req,res) =>{
             Energy: sunshine_duration
         }
         return res.json(info);
+        })
+
     }
     catch(error){
         console.error('Blad przy pobieraniu pogody', error)
